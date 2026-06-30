@@ -1,0 +1,14 @@
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+sqlmodel>=0.0.14
+asyncpg>=0.29.0
+pydantic-settings>=2.1.0
+httpx>=0.26.0
+selectolax>=0.3.21
+python-dotenv>=1.0.0
+python-multipart>=0.0.9
+notion-client>=2.2.1
+dnspython>=2.4.0
+pytest>=8.0.0
+pytest-asyncio>=0.23.0
+aiosqlite>=0.20.0

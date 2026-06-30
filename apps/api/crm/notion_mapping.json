@@ -1,0 +1,38 @@
+{
+  "name": "Lead",
+  "company": "Company",
+  "company_domain": "Company domain",
+  "company_size": "Company size (max)",
+  "email": "Email",
+  "linkedin": "LinkedIn (person)",
+  "linkedin_company": "LinkedIn (company)",
+  "location": "Location",
+  "role_title": "Role title",
+  
+  "icp_score": "ICP score",
+  "combined_score": "Combined score",
+  
+  "signals": "Buying signals (all)",
+  "top_signal": "Top buying signal",
+  "buying_signal_score": "Buying signal score",
+  
+  "summary": "Enriched profile (JSON)",
+  "recent_news": "Recent news (summary)",
+  "tech_stack": "Tech stack",
+  "tech_stack_confidence": "Tech stack confidence",
+  "funding_status": "Funding status",
+  "funding_confidence": "Funding confidence",
+  "industry": "Industry",
+  "sub_industry": "Sub-industry",
+  "seniority": "Seniority",
+  
+  "qualification": "Qualification",
+  "outreach_subject_v1": "Outreach subject (v1)",
+  "outreach_email_v1": "Outreach email (v1)",
+  "outreach_subject_v2": "Outreach subject (v2)",
+  "outreach_email_v2": "Outreach email (v2)",
+
+  "status": "Enrichment status",
+  "crm_status": "CRM sync status",
+  "errors": "Errors / notes"
+}
