@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     notion_api_key: str = ""
     notion_database_id: str = ""
     notion_data_source_id: str = ""
+    cors_allowed_origins: str = ""
 
 
 settings = Settings()

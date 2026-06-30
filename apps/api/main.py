@@ -34,6 +34,9 @@ _start_time = time.time()
 _notion_status: dict = {"valid": False, "error": None}
 
 
+_cors_origins: list[str] = []
+_cors_credentials: bool = True
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global _notion_status
@@ -45,20 +48,63 @@ async def lifespan(app: FastAPI):
     except NotionValidationError as exc:
         _notion_status = {"valid": False, "error": str(exc)}
         log_stage("startup_warning", f"Notion not configured: {exc}")
+    
+    # --- Startup Validation ---
+    print("\n" + "="*50)
+    print("🚀 LeadAI Backend Starting up...")
+    print("--- CORS Configuration ---")
+    print(f"Loaded CORS origins: {_cors_origins}")
+    print(f"CORS Credentials Allowed: {_cors_credentials}")
+    print("--- Middleware Order ---")
+    for idx, middleware in enumerate(app.user_middleware):
+        print(f"{idx + 1}. {middleware.cls.__name__}")
+    print("--- Registered Routes ---")
+    sse_routes = []
+    for route in app.routes:
+        path = getattr(route, 'path', str(route))
+        print(f"Route: {path}")
+        if path in {"/events", "/event", "/stream", "/live"}:
+            sse_routes.append(path)
+    print("--- SSE Routes ---")
+    for r in sse_routes:
+        print(f"SSE Route: {r}")
+    print("="*50 + "\n")
+    # --------------------------
+
     yield
     await job_queue.stop()
 
 
 app = FastAPI(title="LeadAI API", lifespan=lifespan)
 
+# --- CORS Parsing and Validation ---
+raw_origins = [settings.frontend_url]
+if settings.cors_allowed_origins:
+    raw_origins.extend([o.strip() for o in settings.cors_allowed_origins.split(",") if o.strip()])
+
+_cors_origins = list(set(raw_origins))
+_cors_credentials = True
+
+# If allow_credentials is True, allow_origins cannot contain "*"
+if "*" in _cors_origins:
+    if len(_cors_origins) == 1:
+        _cors_credentials = False
+    else:
+        # If specific origins exist alongside "*", drop the "*" so credentials can remain True
+        _cors_origins.remove("*")
+
+# CRITICAL: Register CORSMiddleware exactly once, immediately after creating FastAPI
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.frontend_url],
-    allow_origin_regex=r"chrome-extension://.*",
-    allow_credentials=True,
+    allow_origins=_cors_origins,
+    allow_origin_regex=r"https://.*\.vercel\.app|https://.*\.onrender\.com|chrome-extension://.*",
+    allow_credentials=_cors_credentials,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],
+    max_age=86400,
 )
+
 
 
 def _parse_icp_score(fields: list[EnrichmentField]) -> int | None:
@@ -410,3 +456,17 @@ async def get_notion_schema():
         "mapping": mapping,
         "schema": schema,
     }
+
+from fastapi import Request
+@app.get("/debug/cors")
+async def debug_cors(request: Request):
+    return {
+        "allowed_origins": _cors_origins,
+        "request_origin": request.headers.get("origin"),
+        "origin_allowed": request.headers.get("origin") in _cors_origins or _cors_credentials is False,
+        "middleware_loaded": any(m.cls.__name__ == "CORSMiddleware" for m in app.user_middleware),
+        "credentials": _cors_credentials,
+        "methods": ["*"],
+        "headers": ["*"]
+    }
+
