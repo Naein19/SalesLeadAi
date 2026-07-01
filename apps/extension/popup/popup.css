@@ -1,0 +1,132 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  width: 320px;
+  min-height: 200px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 13px;
+  background: #FAFAFA;
+  color: #111827;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: #fff;
+  border-bottom: 1px solid #E5E7EB;
+}
+.logo { display: flex; align-items: center; gap: 7px; }
+.logo-icon {
+  width: 24px; height: 24px;
+  background: #4F46E5;
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+}
+.logo-text { font-weight: 700; font-size: 13px; color: #111827; }
+.status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #D1D5DB;
+}
+.status-dot.active { background: #16A34A; animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+.state { padding: 14px; }
+.hidden { display: none !important; }
+
+/* Empty state */
+.empty-icon { font-size: 28px; text-align: center; margin: 16px 0 10px; }
+.empty-title { text-align: center; color: #6B7280; font-size: 12px; line-height: 1.5; margin-bottom: 14px; }
+
+/* Profile card */
+.profile-card {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px; background: #fff;
+  border: 1px solid #E5E7EB; border-radius: 8px;
+  margin-bottom: 12px;
+}
+.avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: #EEF2FF;
+  color: #4F46E5;
+  font-size: 15px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.profile-name { font-size: 13px; font-weight: 600; }
+.profile-title, .profile-company { font-size: 11px; color: #6B7280; }
+
+/* Form */
+.field-group { margin-bottom: 8px; }
+.field-group label { display: block; font-size: 10px; font-weight: 600; color: #6B7280; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 3px; }
+.field-group input {
+  width: 100%; padding: 6px 9px;
+  border: 1px solid #E5E7EB; border-radius: 6px;
+  font-size: 12px; color: #111827; background: #fff;
+  outline: none;
+}
+.field-group input:focus { border-color: #4F46E5; }
+
+/* Buttons */
+.btn {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  width: 100%; padding: 8px 14px;
+  border-radius: 7px; font-size: 13px; font-weight: 600;
+  cursor: pointer; border: none; transition: opacity 0.15s;
+  text-decoration: none;
+}
+.btn:hover { opacity: 0.85; }
+.btn-primary { background: #111827; color: #fff; margin-top: 10px; }
+.btn-secondary { background: #F3F4F6; color: #374151; margin-top: 6px; }
+
+/* Spinner */
+.spinner {
+  width: 13px; height: 13px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Pipeline stages */
+.progress-container { padding: 8px 0; }
+.pipeline-stages { display: flex; flex-direction: column; gap: 8px; }
+.stage {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px;
+  border-radius: 7px;
+  font-size: 12px;
+  background: #F3F4F6;
+  color: #6B7280;
+  transition: all 0.2s;
+}
+.stage.active { background: #EEF2FF; color: #4F46E5; font-weight: 600; }
+.stage.done { background: #DCFCE7; color: #16A34A; }
+.stage.failed { background: #FEE2E2; color: #DC2626; }
+
+/* Results */
+.result-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px; background: #fff;
+  border: 1px solid #E5E7EB; border-radius: 8px;
+  margin-bottom: 10px;
+}
+.result-score { font-size: 32px; font-weight: 800; }
+.result-score-label { font-size: 10px; color: #6B7280; text-transform: uppercase; letter-spacing: 0.04em; }
+.result-status { font-size: 11px; font-weight: 600; padding: 4px 8px; border-radius: 99px; }
+.result-signal {
+  font-size: 11px; color: #374151;
+  background: #F9FAFB; border-radius: 6px;
+  padding: 8px 10px; margin-bottom: 8px;
+  line-height: 1.5;
+}
+.result-email-badge {
+  font-size: 11px; color: #4F46E5;
+  background: #EEF2FF; border-radius: 6px;
+  padding: 6px 10px; margin-bottom: 10px;
+}
+.result-actions { display: flex; flex-direction: column; gap: 6px; }

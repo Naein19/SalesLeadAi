@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LeadAI</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <div class="logo-icon">⚡</div>
+      <span class="logo-text">LeadAI</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div id="statusDot" class="status-dot"></div>
+      <button id="settingsBtn" title="Settings" style="background:none; border:none; cursor:pointer; font-size:16px;">⚙️</button>
+    </div>
+  </div>
+
+  <!-- Initial State: Not on LinkedIn -->
+  <div id="notLinkedIn" class="state hidden">
+    <div class="empty-icon">🔍</div>
+    <p class="empty-title">Navigate to a LinkedIn profile or company page to enrich a lead.</p>
+    <a href="http://localhost:3000/dashboard" target="_blank" class="btn btn-secondary">Open Dashboard</a>
+  </div>
+
+  <!-- Ready State: LinkedIn Detected -->
+  <div id="readyState" class="state hidden">
+    <div class="profile-card">
+      <div class="avatar" id="profileAvatar">—</div>
+      <div class="profile-info">
+        <div class="profile-name" id="profileName">Extracting…</div>
+        <div class="profile-title" id="profileTitle"></div>
+        <div class="profile-company" id="profileCompany"></div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label>Name</label>
+      <input type="text" id="inputName" placeholder="Full name" />
+    </div>
+    <div class="field-group">
+      <label>Title</label>
+      <input type="text" id="inputTitle" placeholder="Job title" />
+    </div>
+    <div class="field-group">
+      <label>Company</label>
+      <input type="text" id="inputCompany" placeholder="Company name" />
+    </div>
+    <div class="field-group">
+      <label>Location</label>
+      <input type="text" id="inputLocation" placeholder="City, Country" />
+    </div>
+
+    <button id="enrichBtn" class="btn btn-primary">
+      <span id="enrichBtnText">Enrich Lead</span>
+      <span id="enrichSpinner" class="spinner hidden"></span>
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div id="loadingState" class="state hidden">
+    <div class="progress-container">
+      <div class="pipeline-stages" id="pipelineStages">
+        <div class="stage" data-stage="website">🌐 Scraping website…</div>
+        <div class="stage" data-stage="linkedin">💼 Checking LinkedIn…</div>
+        <div class="stage" data-stage="news">📰 Scanning news…</div>
+        <div class="stage" data-stage="icp">🎯 Scoring ICP…</div>
+        <div class="stage" data-stage="email">✉️ Generating emails…</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Result State -->
+  <div id="resultState" class="state hidden">
+    <div class="result-header">
+      <div class="result-score-wrap">
+        <div class="result-score" id="resultScore">—</div>
+        <div class="result-score-label" id="resultScoreLabel">ICP Score</div>
+      </div>
+      <div class="result-status" id="resultStatus"></div>
+    </div>
+
+    <div class="result-signal" id="resultSignal"></div>
+    <div class="result-email-badge" id="resultEmailBadge" style="display:none">
+      ✉️ Outreach drafts generated
+    </div>
+    
+    <div id="resultVariants" style="display:none; margin-bottom: 12px; max-height: 200px; overflow-y: auto;">
+      <!-- Variants will be injected here -->
+    </div>
+
+    <div class="result-actions">
+      <button id="openDashboardBtn" class="btn btn-primary">View in Dashboard</button>
+      <button id="resetBtn" class="btn btn-secondary">Enrich Another</button>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
